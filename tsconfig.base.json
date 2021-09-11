@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@alamos-fe/material-ui-core": ["libs/material-ui-core/src/index.ts"],
+      "@alamos-fe/ui-core": ["libs/ui-core/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

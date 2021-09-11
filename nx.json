@@ -33,6 +33,12 @@
     "blog-e2e": {
       "tags": [],
       "implicitDependencies": ["blog"]
+    },
+    "material-ui-core": {
+      "tags": []
+    },
+    "ui-core": {
+      "tags": []
     }
   }
 }
