@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Modal } from "../models/modals";
 import { ApolloService, Post } from "@alamos-fe/graphql-service";
 import { PostPreview } from '@alamos-fe/material-ui-core';
+import { useRouter } from "next/dist/client/router";
 
 /* eslint-disable-next-line */
 export interface PostProps {
@@ -9,6 +10,8 @@ export interface PostProps {
 }
 
 const Index: React.FC<PostProps> = ({posts}) =>  {
+  const router = useRouter();
+
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
@@ -42,8 +45,8 @@ const Index: React.FC<PostProps> = ({posts}) =>  {
           </div>
         </div>
       </div>
-      <div className="flex px-4 gap-4 flex-wrap justify-center items-center">
-        {posts?.map(post => <PostPreview key={post.id} title={post.title} content={post.description} imageUrl={post.image.url} />)}
+      <div className="flex flex-col sm:flex-row sm:flex-wrap px-4 gap-4 justify-center sm:items-center">
+        {posts?.map(post => <PostPreview onReadMore={() => router.push(`/?postId=${post.id}&modal=${Modal.post_view}`, `/post/${post.id}/`)} key={post.id} id={post.id} title={post.title} content={post.description} imageUrl={post.image.url} />)}
       </div>
     </div>
   );

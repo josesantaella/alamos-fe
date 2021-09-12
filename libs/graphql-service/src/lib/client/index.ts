@@ -6,7 +6,8 @@ class ApolloService {
     private static instance: ApolloService;
     private static connection = new ApolloClient({
         uri: 'https://alamos-be.herokuapp.com/graphql',
-        cache: new InMemoryCache()
+        cache: new InMemoryCache(),
+        connectToDevTools: true
     });
     post: PostService;
 
@@ -18,8 +19,8 @@ class ApolloService {
         this.post = new PostService (this.runQuery)
     }
 
-    private runQuery<T>(query : string){
-        return ApolloService.connection.query<T>({query: gql(query)})
+    private runQuery<T>(query : string, variables? : any){
+        return ApolloService.connection.query<T>({query: gql(query), variables})
     }
 
       /**

@@ -1,3 +1,4 @@
+import { Image } from "@alamos-fe/graphql-service"
 class Post {
     id: number
     title: string
@@ -6,9 +7,7 @@ class Post {
     created_at: string
     updated_at: string
     published_at: string
-    image: {
-        url : string
-    }
+    image: Image
     slug : string
     category: {
         name: string
