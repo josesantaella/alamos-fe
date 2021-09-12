@@ -48,10 +48,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to blog!</title>
       </Head>
-      <div className="app">
+      <div className="app flex flex-col">
         <ThemeProvider theme={theme}>
           <AppBar/>
-          <main>
+          <main className="flex flex-col overflow-x-auto flex-grow">
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <Component {...pageProps} />
