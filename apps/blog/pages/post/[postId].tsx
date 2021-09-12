@@ -1,7 +1,7 @@
 import { ApolloService, Post } from "@alamos-fe/graphql-service";
 import { useRouter } from "next/dist/client/router";
 import Image from 'next/image'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 /* eslint-disable-next-line */
@@ -9,15 +9,16 @@ export interface PostProps {
   post : Post
 }
 
-export const PostComponent: React.FC<PostProps> = ({ post }) =>  {
+export const PostComponent: React.FC<PostProps> = ({ post : InitialData }) =>  {
   const router = useRouter();
-  const postId = router.query.postId;
+  const postId = router.query.postId?.toString();
+  const [post, setPost] = useState(InitialData);
 
-  // useEffect(() => {
-  //   ApolloService.post.get(3).then(({data})=>{
-  //     console.log(data)
-  //   })
-  // })
+  useEffect(() => {
+    ApolloService.post.get(parseInt(postId)).then(({data})=> {
+      setPost(data.article);
+    })
+  }, [])
 
   if(!post) return null;
 

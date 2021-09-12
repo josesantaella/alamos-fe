@@ -25,7 +25,7 @@ query {
 `;
 
 export const GET = `
-query($id: ID!) {
+query Article($id: ID!) {
     article(id : $id) {
         id
         title
