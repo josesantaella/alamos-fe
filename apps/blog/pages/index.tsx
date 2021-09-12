@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Modals } from "../models/modals";
-import { ApolloService, Post } from "@alamos-fe/graphql-service"
+import { ApolloService, Post } from "@alamos-fe/graphql-service";
+import { PostPreview } from '@alamos-fe/material-ui-core';
 
 /* eslint-disable-next-line */
 export interface PostProps {
@@ -41,7 +42,9 @@ const Index: React.FC<PostProps> = ({posts}) =>  {
           </div>
         </div>
       </div>
-      {posts?.map(post => <h1>{post.title}</h1>)}
+      <div className="flex px-4 gap-4 flex-wrap justify-center items-center">
+        {posts?.map(post => <PostPreview key={post.id} title={post.title} content={post.description} imageUrl={post.image.url} />)}
+      </div>
     </div>
   );
 }
