@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Modals } from "../models/modals";
-import { ApolloService } from "@alamos-fe/graphql-service"
+import { ApolloService, Post } from "@alamos-fe/graphql-service"
 
 /* eslint-disable-next-line */
 export interface PostProps {
-  posts : any
+  posts : Post[]
 }
 
 const Index: React.FC<PostProps> = ({posts}) =>  {

@@ -1,1 +1,1 @@
-export {default as PostService} from './posts';
+export { default as PostService } from './posts';
