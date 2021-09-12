@@ -1,5 +1,8 @@
-export function Index() {
-  
+import Link from "next/link";
+import { Modals } from "../models/modals";
+
+const Index = () =>  {
+
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
@@ -11,12 +14,17 @@ export function Index() {
         </h2>
         <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
           <div className="inline-flex rounded-md shadow">
+            
+          <Link
+              href={`/?postId=1&modal=${Modals.post_view}`}
+              as={`/post/1`}
+            >
             <a
-              href="#"
               className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-700"
             >
               Get started
             </a>
+            </Link>
           </div>
           <div className="ml-3 inline-flex rounded-md shadow">
             <a
