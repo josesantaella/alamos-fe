@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@alamos-fe/graphql-service": ["libs/graphql-service/src/index.ts"],
       "@alamos-fe/material-ui-core": ["libs/material-ui-core/src/index.ts"],
       "@alamos-fe/ui-core": ["libs/ui-core/src/index.ts"]
     }

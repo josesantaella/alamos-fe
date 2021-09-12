@@ -80,6 +80,20 @@
         }
       }
     },
+    "graphql-service": {
+      "root": "libs/graphql-service",
+      "sourceRoot": "libs/graphql-service/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/graphql-service/**/*.ts"]
+          }
+        }
+      }
+    },
     "material-ui-core": {
       "root": "libs/material-ui-core",
       "sourceRoot": "libs/material-ui-core/src",

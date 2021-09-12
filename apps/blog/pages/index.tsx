@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { Modals } from "../models/modals";
+import { ApolloService } from "@alamos-fe/graphql-service"
 
-const Index = () =>  {
+/* eslint-disable-next-line */
+export interface PostProps {
+  posts : any
+}
 
+const Index: React.FC<PostProps> = ({posts}) =>  {
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
@@ -36,8 +41,19 @@ const Index = () =>  {
           </div>
         </div>
       </div>
+      {posts?.map(post => <h1>{post.title}</h1>)}
     </div>
   );
+}
+
+export async function getStaticProps(ctx){
+  const { data , loading, error }  = await ApolloService.post.getAll();
+
+  return {
+    props:{
+      posts : data.articles
+    }
+  }
 }
 
 export default Index;
