@@ -16,7 +16,7 @@ export const PostComponent: React.FC<PostProps> = ({ post : InitialData }) =>  {
 
   useEffect(() => {
     ApolloService.post.get(parseInt(postId)).then(({data})=> {
-      setPost(data.article);
+      setPost(data.articles[0]);
     })
   }, [])
 
@@ -49,7 +49,7 @@ export async function getStaticProps({ params }){
   
   return {
     props:{
-      post : data.article
+      post : data.articles[0]
     }
   }
 }

@@ -6,7 +6,7 @@ class PostService extends BaseService {
         return this.query<{articles: Post[]}>(Queries.GET_ALL);
     }
     get(id:number){
-        return this.query<{article: Post}>(Queries.GET, { id });
+        return this.query<{articles: Post[]}>(Queries.GET, { id });
     }
     getIds(){
         return this.query<{articles: {id: number}[]}>(Queries.GET_ALL_ID);

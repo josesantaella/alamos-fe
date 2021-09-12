@@ -25,8 +25,8 @@ query {
 `;
 
 export const GET = `
-query Article($id: ID!) {
-    article(id : $id) {
+query Articles($id: ID!) {
+    articles(limit :1 , where: { id : $id} )  {
         id
         title
         content
