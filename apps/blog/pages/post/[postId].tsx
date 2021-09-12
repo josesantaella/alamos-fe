@@ -18,7 +18,7 @@ export const PostComponent: React.FC<PostProps> = ({ post : InitialData }) =>  {
     ApolloService.post.get(parseInt(postId)).then(({data})=> {
       setPost(data.articles[0]);
     })
-  }, [])
+  }, [postId])
 
   if(!post) return null;
 
