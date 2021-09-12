@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Modals } from "../models/modals";
+import { Modal } from "../models/modals";
 import { ApolloService, Post } from "@alamos-fe/graphql-service";
 import { PostPreview } from '@alamos-fe/material-ui-core';
 
@@ -22,7 +22,7 @@ const Index: React.FC<PostProps> = ({posts}) =>  {
           <div className="inline-flex rounded-md shadow">
             
           <Link
-              href={`/?postId=1&modal=${Modals.post_view}`}
+              href={`/?postId=1&modal=${Modal.post_view}`}
               as={`/post/1`}
             >
             <a
