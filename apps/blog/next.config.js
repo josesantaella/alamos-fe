@@ -15,14 +15,18 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/uploads/:path*',
-        destination: 'https://alamos-be.herokuapp.com/uploads/:path*'
-      }
-    ]
-  }
+  images: {
+    domains: [process.env.AWSContainer || "" ],
+  },
+  // Proxy images to Strapi API
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/uploads/:path*',
+  //       destination: 'https://alamos-be.herokuapp.com/uploads/:path*'
+  //     }
+  //   ]
+  // }
 };
 
 module.exports = withNx(nextConfig);
