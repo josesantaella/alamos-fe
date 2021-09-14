@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const withNx = require('@nrwl/next/plugins/with-nx');
+const withNx = require('@nrwl/next/plugins/with-nx')
 const path = require('path')
 
 /**
@@ -16,7 +16,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: [process.env.AWSContainer || "" ],
+    domains: [process.env.AWSContainer || ''],
   },
   // Proxy images to Strapi API
   // async rewrites() {
@@ -27,6 +27,6 @@ const nextConfig = {
   //     }
   //   ]
   // }
-};
+}
 
-module.exports = withNx(nextConfig);
+module.exports = withNx(nextConfig)

@@ -1,2 +1,2 @@
-export { default as ApolloService } from './client';
-export * from './services';
+export { default as ApolloService } from './client'
+export * from './services'

@@ -4,17 +4,20 @@
 @import './palette.module.scss';
 
 :root {
-    --color-primary: #{$primary};
+  --color-primary: #{$primary};
 }
-  
-html, body, #__next, .app {
+
+html,
+body,
+#__next,
+.app {
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {

@@ -22,7 +22,7 @@ query {
         }
     }
 }
-`;
+`
 
 export const GET = `
 query Articles($id: ID!) {
@@ -48,11 +48,11 @@ query Articles($id: ID!) {
         }
     }
   }
-  `;
-  export const GET_ALL_ID = `
+  `
+export const GET_ALL_ID = `
   query {
     articles{
       id
     }
   }
-  `;
+  `
