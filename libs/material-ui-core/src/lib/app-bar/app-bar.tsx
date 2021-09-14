@@ -1,11 +1,10 @@
-
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { default as MaterialAppBar } from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Button } from '@alamos-fe/material-ui-core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { default as MaterialAppBar } from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import { Button } from '../button/button'
 
 /* eslint-disable-next-line */
 export interface AppBarProps {}
@@ -13,7 +12,7 @@ export interface AppBarProps {}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%"
+      width: '100%',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -22,10 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
   }),
-);
+)
 
 export const AppBar: React.FC<AppBarProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -41,7 +40,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
         </Toolbar>
       </MaterialAppBar>
     </div>
-  );
+  )
 }
 
-export default AppBar;
+export default AppBar

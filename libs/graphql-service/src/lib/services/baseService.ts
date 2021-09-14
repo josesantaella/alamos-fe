@@ -1,7 +1,9 @@
-import { ApolloQueryResult } from "@apollo/client";
+import { ApolloQueryResult } from '@apollo/client'
 
 class BaseService {
-    constructor(protected query : <T>(query: string, variables?: any)=> Promise<ApolloQueryResult<T>>){}
+  constructor(
+    protected query: <T>(query: string, variables?: Record<string, string>) => Promise<ApolloQueryResult<T>>,
+  ) {}
 }
 
 export default BaseService
