@@ -9,7 +9,7 @@ class PostService extends BaseService {
     return this.query<{ articles: Post[] }>(Queries.GET_BY_SLUG, { slug });
   }
   getSlugs() {
-    return this.query<{ articles: { slug: string }[] }>(Queries.GET_ALL_SLUG);
+    return this.query<{ articles: Post[] }>(Queries.GET_ALL_SLUG);
   }
 }
 

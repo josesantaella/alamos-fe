@@ -14,16 +14,6 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
   const { locale, query, isReady } = router;
   const slug = query.slug?.toString();
   const [post, setPost] = useState(InitialData);
-  const updateRouteSlug = (slug) =>
-    router.push(
-      {
-        pathname: '/post/[slug]',
-        query: { slug }
-      },
-      undefined,
-      { shallow: true }
-    );
-
   useEffect(() => {
     if (!isReady || !slug || post?.locale == locale) return;
     const localization = post?.localizations.find((x) => x.locale == locale);
@@ -31,8 +21,15 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
       setPost(data.articles[0]);
     });
     if (!localization) return;
-    updateRouteSlug(localization.slug);
-  }, [slug, isReady, locale, post]);
+    router.push(
+      {
+        pathname: '/post/[slug]',
+        query: { slug: localization.slug }
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [slug, isReady, locale, post, router]);
 
   if (!post) return null;
 
@@ -54,13 +51,15 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const { data, loading, error } = await ApolloService.post.getSlugs();
   const posts = data.articles;
-  const paths = posts.map(({ slug }) => ({ params: { slug } }));
-  const localePaths = locales.map((locale) => paths.map((path) => ({ ...path, locale })));
+  const paths = posts.reduce((acc, { slug, locale, localizations }) => {
+    acc.push({ params: { slug }, locale });
+    return acc.concat(localizations.map(({ slug, locale }) => ({ params: { slug }, locale })));
+  }, []);
   return {
-    paths: localePaths.reduce((acc, val) => acc.concat(val), []),
+    paths,
     fallback: true
   };
 };

@@ -64,6 +64,12 @@ export const GET_ALL_SLUG = `
   query Articles($locale: String!) {
     articles (locale : $locale) {
       slug
+      localizations{
+        id
+        slug
+        locale
+      }
+      locale
     }
   }
   `;
