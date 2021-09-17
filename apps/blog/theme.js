@@ -1,22 +1,22 @@
-import { createTheme } from '@material-ui/core/styles'
-import { red } from '@material-ui/core/colors'
-import colors from './styles/palette.module.scss'
+import { createTheme } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
+import colors from './styles/palette.module.scss';
 // Create a theme instance.
 const theme = createTheme({
   palette: {
     primary: {
-      main: colors.primary,
+      main: colors.primary
     },
     secondary: {
-      main: '#19857b',
+      main: '#19857b'
     },
     error: {
-      main: red.A400,
+      main: red.A400
     },
     background: {
-      default: '#fff',
-    },
-  },
-})
+      default: '#fff'
+    }
+  }
+});
 
-export default theme
+export default theme;

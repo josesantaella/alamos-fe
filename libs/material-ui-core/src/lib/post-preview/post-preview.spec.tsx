@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react'
+import { render } from '@testing-library/react';
 
-import PostPreview from './post-preview'
+import PostPreview from './post-preview';
 
 describe('PostPreview', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<PostPreview />)
-    expect(baseElement).toBeTruthy()
-  })
-})
+    const { baseElement } = render(<PostPreview />);
+    expect(baseElement).toBeTruthy();
+  });
+});

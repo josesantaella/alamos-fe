@@ -6,7 +6,7 @@ export function UiCore(props: UiCoreProps) {
     <div>
       <h1>Welcome to UiCore!</h1>
     </div>
-  )
+  );
 }
 
-export default UiCore
+export default UiCore;

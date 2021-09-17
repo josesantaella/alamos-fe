@@ -1,11 +1,10 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 
-import Index from '../pages/index';
+import Modal from './modal';
 
-describe('Index', () => {
+describe('Modal', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Index />);
+    const { baseElement } = render(<Modal />);
     expect(baseElement).toBeTruthy();
   });
 });

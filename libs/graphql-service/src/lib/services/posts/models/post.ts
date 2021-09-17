@@ -1,20 +1,22 @@
-import { Image } from '../../'
+import { Image, Localization } from '../../';
 class Post {
-  id: number
-  title: string
-  content: string
-  description: string
-  created_at: string
-  updated_at: string
-  published_at: string
-  image: Image
-  slug: string
+  id: number;
+  title: string;
+  content: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+  published_at: string;
+  image: Image;
+  slug: string;
   category: {
-    name: string
-  }
+    name: string;
+  };
   author: {
-    name: string
-  }
+    name: string;
+  };
+  localizations: Localization[];
+  locale: string;
 }
 
-export default Post
+export default Post;

@@ -1,6 +1,6 @@
 export const GET_ALL = `
-query {
-    articles {
+query Articles($locale: String!) {
+    articles (locale : $locale) {
         id
         title
         content
@@ -20,13 +20,18 @@ query {
         author {
             name
         }
+        localizations{
+          id
+          slug
+          locale
+        }
+        locale
     }
 }
-`
-
-export const GET = `
-query Articles($id: ID!) {
-    articles(limit :1 , where: { id : $id} )  {
+`;
+export const GET_BY_SLUG = `
+query Articles($slug: String!, $locale: String!) {
+    articles(locale: $locale, limit :1 , where: { slug : $slug} )  {
         id
         title
         content
@@ -46,13 +51,19 @@ query Articles($id: ID!) {
         author {
             name
         }
+        localizations{
+          id
+          slug
+          locale
+        }
+        locale
     }
   }
-  `
-export const GET_ALL_ID = `
-  query {
-    articles{
-      id
+  `;
+export const GET_ALL_SLUG = `
+  query Articles($locale: String!) {
+    articles (locale : $locale) {
+      slug
     }
   }
-  `
+  `;

@@ -1,6 +1,6 @@
-const { join } = require('path')
-const { createGlobPatternsForDependencies } = require('@nrwl/next/tailwind')
-const colors = require('tailwindcss/colors')
+const { join } = require('path');
+const { createGlobPatternsForDependencies } = require('@nrwl/next/tailwind');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   purge: [join(__dirname, 'pages/**/*.{js,ts,jsx,tsx}'), ...createGlobPatternsForDependencies(__dirname)],
@@ -11,13 +11,13 @@ module.exports = {
       current: 'currentColor',
       primary: 'var(--color-primary)',
       black: colors.black,
-      white: colors.white,
+      white: colors.white
     },
-    extend: {},
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
   plugins: [],
-  mode: 'jit',
-}
+  mode: 'jit'
+};

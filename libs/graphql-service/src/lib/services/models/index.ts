@@ -1,5 +1,11 @@
 export interface Image {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface Localization {
+  id: number;
+  slug: string;
+  locale: string;
 }
