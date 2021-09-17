@@ -65,7 +65,7 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
               onClick={handleMenu}
               color="inherit"
             >
-              <LanguageIcon className={classes.localeIcon} />
+              <LanguageIcon />
               <Typography variant="button" display="block">
                 {localization.active}
               </Typography>
