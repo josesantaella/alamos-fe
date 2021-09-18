@@ -14,14 +14,26 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
   const { locale, query, isReady } = router;
   const slug = query.slug?.toString();
   const [post, setPost] = useState(InitialData);
+
   useEffect(() => {
-    if (!isReady || !slug || post?.locale == locale) return;
-    const localization = post?.localizations.find((x) => x.locale == locale);
-    ApolloService.post.getBySlug(localization?.slug || slug).then(({ data }) => {
+    if (!isReady || post) return;
+    ApolloService.post.getBySlug(slug).then(({ data }) => {
       setPost(data.articles[0]);
     });
-    if (!localization) return;
-    router.push(
+  }, [isReady, post, slug]);
+
+  useEffect(() => {
+    const localization = post?.localizations.find((x) => x.locale == locale);
+    if (post?.locale == locale || (post && !localization) || !localization) return;
+    ApolloService.post.getBySlug(localization?.slug).then(({ data }) => {
+      setPost(data.articles[0]);
+    });
+  }, [post, locale]);
+
+  useEffect(() => {
+    const localization = post?.localizations.find((x) => x.locale == locale);
+    if (post?.locale == locale || !localization) return;
+    router.replace(
       {
         pathname: '/post/[slug]',
         query: { slug: localization.slug }
@@ -29,7 +41,7 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
       undefined,
       { shallow: true }
     );
-  }, [slug, isReady, locale, post, router]);
+  }, [post, locale]);
 
   if (!post) return null;
 
