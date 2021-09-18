@@ -43,6 +43,7 @@ export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } =
     } else {
       router.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post, locale]);
 
   if (!post) return null;

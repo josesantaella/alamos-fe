@@ -7,6 +7,6 @@ module.exports = {
   react: {
     useSuspense: false
   },
-  localePath: resolve(join(__dirname, '..', '..', '..', './public/locales')),
+  localePath: resolve('./public/locales'),
   preload: ['en', 'es']
 };
