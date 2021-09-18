@@ -32,15 +32,19 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
 
   useEffect(() => {
     const localization = post?.localizations.find((x) => x.locale == locale);
-    if (post?.locale == locale || !localization) return;
-    router.replace(
-      {
-        pathname: '/post/[slug]',
-        query: { slug: localization.slug }
-      },
-      undefined,
-      { shallow: true }
-    );
+    if (!post || post.locale == locale) return;
+    if (localization?.slug) {
+      router.replace(
+        {
+          pathname: '/post/[slug]',
+          query: { slug: localization.slug }
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push('/');
+    }
   }, [post, locale]);
 
   if (!post) return null;
