@@ -5,8 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Button } from '../button/button';
-import { Localization, NavItem } from './app-bar.model';
+import { Home, Localization, NavItem } from './app-bar.model';
 import LanguageIcon from '@mui/icons-material/Language';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -15,6 +14,7 @@ import Menu from '@material-ui/core/Menu';
 export interface AppBarProps {
   navItems: NavItem[];
   localization: Localization;
+  home: Home;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2)
     },
-    title: {
+    header: {
       flexGrow: 1
     },
     localeButton: {
@@ -34,8 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const AppBar: React.FC<AppBarProps> = (props) => {
-  const { localization } = props;
+export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -54,9 +53,13 @@ export const AppBar: React.FC<AppBarProps> = (props) => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-          </Typography>
+          <div className={classes.header}>
+            <IconButton size="medium" color="inherit" onClick={home.handler}>
+              <Typography variant="button" display="block">
+                {home.text}
+              </Typography>
+            </IconButton>
+          </div>
           <div>
             <IconButton
               size="medium"

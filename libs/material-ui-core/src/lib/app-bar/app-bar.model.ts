@@ -14,3 +14,8 @@ export interface Localization {
   active: string;
   locales: Locale[];
 }
+
+export interface Home {
+  text: string;
+  handler: () => void;
+}

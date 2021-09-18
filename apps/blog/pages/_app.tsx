@@ -1,8 +1,11 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import nextI18NextConfig from '../next-i18next.config.js';
 import { AppBar } from '@alamos-fe/material-ui-core';
 import { ApolloService } from '@alamos-fe/graphql-service';
 import { FullScreenDialog } from '@alamos-fe/material-ui-core';
 import { AppProps } from 'next/app';
-import { appWithTranslation, useTranslation } from 'next-i18next';
+import { appWithTranslation } from 'next-i18next';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -14,12 +17,13 @@ import { ModalRoutes } from '../modals';
 import '../styles/global.scss';
 import theme from '../theme';
 import React from 'react';
+import { GetStaticProps } from 'next';
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const { locale, locales, asPath } = router;
   ApolloService.setLocale(locale);
-  const { t } = useTranslation('common');
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -41,6 +45,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
     );
   };
 
+  const handleLocaleChange = (locale) => {
+    const shallow = Object.prototype.hasOwnProperty.call(Component, 'isLocaleHandler');
+    router.replace(asPath, undefined, { locale, shallow });
+  };
+
   return (
     <>
       <Head>
@@ -50,12 +59,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <AppBar
             navItems={[]}
+            home={{ text: t('common:nav.home'), handler: () => router.push('/') }}
             localization={{
               active: locale,
               locales: locales.map((x) => ({
                 value: x,
                 label: x,
-                handler: () => router.push(asPath, undefined, { locale: x, shallow: true })
+                handler: () => handleLocaleChange(x)
               }))
             }}
           />
@@ -70,4 +80,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig))
+    }
+  };
+};
 export default appWithTranslation(CustomApp);

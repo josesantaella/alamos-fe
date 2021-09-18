@@ -5,6 +5,9 @@ import { PostPreview } from '@alamos-fe/material-ui-core';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import nextI18NextConfig from '../next-i18next.config.js';
+import { useTranslation } from 'next-i18next';
 
 /* eslint-disable-next-line */
 export interface PostProps {
@@ -15,6 +18,7 @@ const Index: React.FC<PostProps> = ({ posts: initialData }) => {
   const router = useRouter();
   const { locale, isReady } = router;
   const [posts, setPosts] = useState<Post[]>(initialData);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isReady) return;
@@ -22,11 +26,12 @@ const Index: React.FC<PostProps> = ({ posts: initialData }) => {
       setPosts(data.articles);
     });
   }, [locale, isReady]);
+
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Ready to dive in?</span>
+          <span className="block">{t('common:nav.home')}Ready to dive in?</span>
           <span className="block text-indigo-600">Start your free trial today.</span>
         </h2>
         <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
@@ -69,7 +74,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      posts: data.articles
+      posts: data.articles,
+      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig))
     }
   };
 };

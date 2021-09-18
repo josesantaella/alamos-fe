@@ -1,4 +1,6 @@
 import { ApolloService, Post } from '@alamos-fe/graphql-service';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import nextI18NextConfig from '../../next-i18next.config.js';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
@@ -9,11 +11,15 @@ export interface PostProps {
   post: Post;
 }
 
-export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
+export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } = ({ post: InitialData }) => {
   const router = useRouter();
   const { locale, query, isReady } = router;
   const slug = query.slug?.toString();
-  const [post, setPost] = useState(InitialData);
+  const [post, setPost] = useState<Post>(InitialData);
+
+  useEffect(() => {
+    setPost(InitialData);
+  }, [InitialData]);
 
   useEffect(() => {
     if (!isReady || post) return;
@@ -21,14 +27,6 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
       setPost(data.articles[0]);
     });
   }, [isReady, post, slug]);
-
-  useEffect(() => {
-    const localization = post?.localizations.find((x) => x.locale == locale);
-    if (post?.locale == locale || (post && !localization) || !localization) return;
-    ApolloService.post.getBySlug(localization?.slug).then(({ data }) => {
-      setPost(data.articles[0]);
-    });
-  }, [post, locale]);
 
   useEffect(() => {
     const localization = post?.localizations.find((x) => x.locale == locale);
@@ -40,12 +38,12 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
           query: { slug: localization.slug }
         },
         undefined,
-        { shallow: true }
+        { locale: localization.locale }
       );
     } else {
       router.push('/');
     }
-  }, [post, locale, router]);
+  }, [post, locale]);
 
   if (!post) return null;
 
@@ -87,9 +85,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   return {
     props: {
-      post: data.articles[0]
+      post: data.articles[0],
+      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig))
     }
   };
 };
 
+PostComponent.isLocaleHandler = true;
 export default PostComponent;
