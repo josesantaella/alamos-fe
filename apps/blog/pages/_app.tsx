@@ -13,6 +13,7 @@ import { ModalRoutes } from '../modals';
 
 import '../styles/global.scss';
 import theme from '../theme';
+import React from 'react';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -30,15 +31,14 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   const renderModal = () => {
     const modal = router.query.modal?.toString();
-    if (modal in Modal) {
-      const activeModal = ModalRoutes[modal as Modal];
-      const ModalComponent = activeModal.component;
-      return (
-        <FullScreenDialog isOpened={modal in Modal} onRequestClose={() => router.back()}>
-          <ModalComponent />
-        </FullScreenDialog>
-      );
-    }
+    const isOpen = modal in Modal;
+    const activeModal = isOpen && ModalRoutes[modal as Modal];
+    const ModalComponent = activeModal?.component;
+    return (
+      <FullScreenDialog isOpened={isOpen} onRequestClose={() => router.back()}>
+        {isOpen ? <ModalComponent /> : null}
+      </FullScreenDialog>
+    );
   };
 
   return (
