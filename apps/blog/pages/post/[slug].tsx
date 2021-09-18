@@ -45,7 +45,7 @@ export const PostComponent: React.FC<PostProps> = ({ post: InitialData }) => {
     } else {
       router.push('/');
     }
-  }, [post, locale]);
+  }, [post, locale, router]);
 
   if (!post) return null;
 
