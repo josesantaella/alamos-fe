@@ -1,4 +1,4 @@
-import { default as MaterialButton } from '@material-ui/core/Button';
+import { default as MaterialButton } from '@mui/material/Button';
 
 /* eslint-disable-next-line */
 export interface ButtonProps {}

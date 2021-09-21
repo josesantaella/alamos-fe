@@ -43,6 +43,7 @@ query Articles($slug: String!, $locale: String!) {
             url
             width
             height
+            blurHash
         }
         slug
         category {

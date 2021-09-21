@@ -1,4 +1,5 @@
 import { ApolloService, Post } from '@alamos-fe/graphql-service';
+import { blurHashToBase64 } from '@alamos-fe/utils';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import nextI18NextConfig from '../../next-i18next.config.js';
 import { GetStaticPaths, GetStaticProps } from 'next';
@@ -47,7 +48,6 @@ export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } =
   }, [post, locale]);
 
   if (!post) return null;
-
   return (
     <>
       <div className="flex relative w-full h-64 sm:h-80 md:h-96">
@@ -57,6 +57,8 @@ export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } =
           layout="intrinsic"
           width={post.image?.width}
           height={post.image?.height}
+          placeholder={'blur'}
+          blurDataURL={blurHashToBase64(post.image?.blurHash || 'LEHV6nWB2yk8pyo0adR*.7kCMdnj')}
         />
       </div>
       <div className="flex flex-col flex-grow p-6">

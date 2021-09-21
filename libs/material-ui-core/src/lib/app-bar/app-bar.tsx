@@ -1,14 +1,14 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { default as MaterialAppBar } from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { default as MaterialAppBar } from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Home, Localization, NavItem } from './app-bar.model';
 import LanguageIcon from '@mui/icons-material/Language';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Box from '@mui/material/Box';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
@@ -17,25 +17,24 @@ export interface AppBarProps {
   home: Home;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%'
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    header: {
-      flexGrow: 1
-    },
-    localeButton: {
-      textTransform: 'uppercase'
-    }
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
+//       width: '100%'
+//     },
+//     menuButton: {
+//       marginRight: theme.spacing(2)
+//     },
+//     header: {
+//       flexGrow: 1
+//     },
+//     localeButton: {
+//       textTransform: 'uppercase'
+//     }
+//   })
+// );
 
 export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,19 +46,19 @@ export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Box sx={{ width: '100%' }}>
       <MaterialAppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" sx={{ marginRight: '2em' }} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <div className={classes.header}>
+          <Box sx={{ flexGrow: 1 }}>
             <IconButton size="medium" color="inherit" onClick={home.handler}>
               <Typography variant="button" display="block">
                 {home.text}
               </Typography>
             </IconButton>
-          </div>
+          </Box>
           <div>
             <IconButton
               size="medium"
@@ -75,7 +74,6 @@ export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
             </IconButton>
             <Menu
               id="menu-appbar-localization"
-              getContentAnchorEl={null}
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
@@ -100,7 +98,7 @@ export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
                       locale.handler();
                       handleClose();
                     }}
-                    className={classes.localeButton}
+                    sx={{ textTransform: 'uppercase' }}
                   >
                     <Typography variant="button" display="block">
                       {locale.label}
@@ -111,7 +109,7 @@ export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
           </div>
         </Toolbar>
       </MaterialAppBar>
-    </div>
+    </Box>
   );
 };
 

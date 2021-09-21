@@ -137,6 +137,20 @@
           }
         }
       }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/utils/**/*.ts"]
+          }
+        }
+      }
     }
   },
   "cli": {
