@@ -17,23 +17,6 @@ export interface AppBarProps {
   home: Home;
 }
 
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     root: {
-//       width: '100%'
-//     },
-//     menuButton: {
-//       marginRight: theme.spacing(2)
-//     },
-//     header: {
-//       flexGrow: 1
-//     },
-//     localeButton: {
-//       textTransform: 'uppercase'
-//     }
-//   })
-// );
-
 export const AppBar: React.FC<AppBarProps> = ({ localization, home }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 

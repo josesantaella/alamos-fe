@@ -63,6 +63,8 @@ export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } =
       </div>
       <div className="flex flex-col flex-grow p-6">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">{post.title}</h1>
+        <br />
+        <p>{post.description}</p>
       </div>
     </>
   );

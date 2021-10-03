@@ -7,9 +7,10 @@ import { FullScreenDialog } from '@alamos-fe/material-ui-core';
 import { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import Head from 'next/head';
-import { useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import createCache from '@emotion/cache';
 import { useRouter } from 'next/dist/client/router';
 import { Modal } from '../models/modals';
 import { ModalRoutes } from '../modals';
@@ -19,19 +20,15 @@ import theme from '../theme';
 import React from 'react';
 import { GetStaticProps } from 'next';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+export interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+function CustomApp({ Component, pageProps, emotionCache = createCache({ key: 'css' }) }: MyAppProps) {
   const { t } = useTranslation();
   const router = useRouter();
   const { locale, locales, asPath } = router;
   ApolloService.setLocale(locale);
-
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
 
   const renderModal = () => {
     const modal = router.query.modal?.toString();
@@ -51,12 +48,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         <title>Welcome to blog!</title>
       </Head>
-      <div className="app flex flex-col">
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <div className="app flex flex-col">
           <AppBar
             navItems={[]}
             home={{ text: t('common:nav.home'), handler: () => router.push('/') }}
@@ -74,10 +71,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
             <CssBaseline />
             <Component {...pageProps} />
           </main>
-        </ThemeProvider>
-      </div>
-      {renderModal()}
-    </>
+        </div>
+        {renderModal()}
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
 
