@@ -29,7 +29,6 @@ const Index: React.FC<PostProps> = ({ posts: postsInitialData, homePage: homePag
       setPosts(data.articles);
     });
   }, [locale, isReady]);
-  console.log(homePage);
   return (
     <Page title={homePage?.seo?.metaTitle}>
       <div className="bg-gray-50">
