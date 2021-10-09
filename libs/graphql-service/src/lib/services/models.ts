@@ -10,3 +10,9 @@ export interface Localization {
   slug: string;
   locale: string;
 }
+
+export interface Seo {
+  metaTitle: string;
+  metaDescription: string;
+  shareImage: Image;
+}

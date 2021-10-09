@@ -1,5 +1,6 @@
-import { Image, Localization } from '../../';
-class Post {
+import { Image, Localization } from '../models';
+
+export interface Post {
   id: number;
   title: string;
   content: string;
@@ -18,5 +19,3 @@ class Post {
   localizations: Localization[];
   locale: string;
 }
-
-export default Post;

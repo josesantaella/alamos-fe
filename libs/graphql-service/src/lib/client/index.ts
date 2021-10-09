@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import gql from 'graphql-tag';
-import { PostService } from '../services';
+import { PostService, HomePageService } from '../services';
 
 class ApolloService {
   private static localization = { default: 'en' };
@@ -11,6 +11,7 @@ class ApolloService {
     connectToDevTools: true
   });
   post: PostService;
+  home: HomePageService;
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -18,6 +19,7 @@ class ApolloService {
    */
   private constructor() {
     this.post = new PostService(this.runQuery);
+    this.home = new HomePageService(this.runQuery);
   }
 
   private runQuery<T>(query: string, variables?: Record<string, string>) {

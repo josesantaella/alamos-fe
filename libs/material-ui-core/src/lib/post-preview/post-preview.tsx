@@ -15,33 +15,6 @@ export interface PostPreviewProps {
   onReadMore: () => void;
 }
 
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     root: {
-//       minWidth: '22em',
-//       flex: 1,
-//       [theme.breakpoints.up('md')]: {
-//         minWidth: '25em',
-//         maxWidth: 345
-//       }
-//     },
-//     media: {
-//       height: 140
-//     },
-//     content: {
-//       height: '12em',
-//       display: 'flex',
-//       flexDirection: 'column'
-//     },
-//     text: {
-//       display: '-webkit-box',
-//       '-webkit-line-clamp': 4,
-//       '-webkit-box-orient': 'vertical',
-//       overflow: 'hidden'
-//     }
-//   })
-// );
-
 export const PostPreview: React.FC<PostPreviewProps> = ({ title, imageUrl, content, onReadMore }) => {
   return (
     <Card sx={{ minWidth: { xs: '22em', md: '25em' }, maxWidth: { md: 345 }, flex: 1 }}>

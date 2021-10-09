@@ -50,7 +50,7 @@ function CustomApp({ Component, pageProps, emotionCache = createCache({ key: 'cs
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Welcome to blog!</title>
+        <title>Alamos Blog</title>
       </Head>
       <ThemeProvider theme={theme}>
         <div className="app flex flex-col">

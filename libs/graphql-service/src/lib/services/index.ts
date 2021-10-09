@@ -1,3 +1,3 @@
-export { default as PostService } from './posts';
+export * from './posts';
+export * from './home';
 export * from './models';
-export * from './posts/models';
