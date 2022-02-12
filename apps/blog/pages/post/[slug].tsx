@@ -1,53 +1,25 @@
+import { useQuery } from '@apollo/client';
 import { ApolloService, Post } from '@alamos-fe/graphql-service';
 import { blurHashToBase64 } from '@alamos-fe/utils';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import nextI18NextConfig from '../../next-i18next.config.js';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+
+import nextI18NextConfig from '../../next-i18next.config.js';
+import withApolloStaticProps from '../../hoc/withApolloStaticProps';
+import withApolloCache from '../../hoc/withApolloCache';
 
 /* eslint-disable-next-line */
-export interface PostProps {
-  post: Post;
-}
-
-export const PostComponent: React.FC<PostProps> & { isLocaleHandler: boolean } = ({ post: InitialData }) => {
-  const router = useRouter();
-  const { locale, query, isReady } = router;
+export const PostComponent: React.FC = () => {
+  const { locale, query } = useRouter();
   const slug = query.slug?.toString();
-  const [post, setPost] = useState<Post>(InitialData);
-
-  useEffect(() => {
-    setPost(InitialData);
-  }, [InitialData]);
-
-  useEffect(() => {
-    if (!isReady || post) return;
-    ApolloService.post.getBySlug(slug).then(({ data }) => {
-      setPost(data.articles[0]);
-    });
-  }, [isReady, post, slug]);
-
-  useEffect(() => {
-    const localization = post?.localizations.find((x) => x.locale == locale);
-    if (!post || post.locale == locale) return;
-    if (localization?.slug) {
-      router.replace(
-        {
-          pathname: '/post/[slug]',
-          query: { slug: localization.slug }
-        },
-        undefined,
-        { locale: localization.locale }
-      );
-    } else {
-      router.push('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post, locale]);
+  const queryOptions = { variables: { locale, slug }, skip: !slug };
+  const { data: postData } = useQuery<{ articles: Post[] }>(ApolloService.post.queries.GET_BY_SLUG, queryOptions);
+  const post = postData && postData.articles[0];
 
   if (!post) return null;
+
   return (
     <>
       <div className="flex relative w-full h-64 sm:h-80 md:h-96">
@@ -83,18 +55,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+export const getStaticProps: GetStaticProps = withApolloStaticProps(async ({ params, locale }) => {
   const { slug } = params;
-  ApolloService.setLocale(locale);
-  const { data, loading, error } = await ApolloService.post.getBySlug(slug.toString());
-
+  await ApolloService.post.getBySlug(slug.toString());
   return {
     props: {
-      post: data.articles[0],
       ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig))
     }
   };
-};
+});
 
-PostComponent.isLocaleHandler = true;
-export default PostComponent;
+export default withApolloCache(PostComponent);

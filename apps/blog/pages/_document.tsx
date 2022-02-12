@@ -4,8 +4,15 @@ import createEmotionServer from '@emotion/server/create-instance';
 import createCache from '@emotion/cache';
 import theme from '../theme';
 import { MyAppProps } from './_app';
+import { ApolloService } from '@alamos-fe/graphql-service';
 
 export default class MyDocument extends Document {
+  constructor(props) {
+    super(props);
+    const { __NEXT_DATA__, apolloInitialState } = props;
+    __NEXT_DATA__[ApolloService.initialCacheState] = apolloInitialState;
+  }
+
   render() {
     return (
       <Html lang="en">
@@ -73,9 +80,10 @@ MyDocument.getInitialProps = async (ctx) => {
       dangerouslySetInnerHTML={{ __html: style.css }}
     />
   ));
-
+  const apolloInitialState = ApolloService.extractCache();
   return {
     ...initialProps,
+    apolloInitialState,
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags]
   };

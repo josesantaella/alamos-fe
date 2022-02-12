@@ -1,8 +1,11 @@
-import { ApolloQueryResult } from '@apollo/client';
-
+import { ApolloQueryResult, DocumentNode } from '@apollo/client';
 class BaseService {
+  queries: Record<string, DocumentNode>;
   constructor(
-    protected query: <T>(query: string, variables?: Record<string, string | number>) => Promise<ApolloQueryResult<T>>
+    protected runQuery: <T>(
+      query: DocumentNode,
+      variables?: Record<string, string | number>
+    ) => Promise<ApolloQueryResult<T>>
   ) {}
 }
 

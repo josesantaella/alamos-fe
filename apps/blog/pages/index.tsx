@@ -1,40 +1,28 @@
+import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 import { Modal } from '../models/modals';
 import { ApolloService, HomePage, Post } from '@alamos-fe/graphql-service';
 import { PostPreview } from '@alamos-fe/material-ui-core';
 import { useRouter } from 'next/dist/client/router';
-import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import nextI18NextConfig from '../next-i18next.config.js';
-import { useTranslation } from 'next-i18next';
+
 import Page from '../components/page';
+import withApolloStaticProps from '../hoc/withApolloStaticProps';
+import withApolloCache from '../hoc/withApolloCache';
 
-/* eslint-disable-next-line */
-export interface PostProps {
-  posts: Post[];
-  homePage: HomePage;
-}
-
-const Index: React.FC<PostProps> = ({ posts: postsInitialData, homePage: homePageInitialData }) => {
-  const router = useRouter();
-  const { locale, isReady } = router;
-  const [posts, setPosts] = useState<Post[]>(postsInitialData);
-  const [homePage, setHomePage] = useState<HomePage>(homePageInitialData);
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!isReady) return;
-    ApolloService.post.getAll().then(({ data }) => {
-      setPosts(data.articles);
-    });
-  }, [locale, isReady]);
+const Index: React.FC = () => {
+  const { push, locale } = useRouter();
+  const queryOptions = { variables: { locale } };
+  const { data: HomePageData } = useQuery<{ homepage: HomePage }>(ApolloService.home.queries.GET, queryOptions);
+  const { data: PostData } = useQuery<{ articles: Post[] }>(ApolloService.post.queries.GET_ALL, queryOptions);
   return (
-    <Page title={homePage?.seo?.metaTitle}>
+    <Page title={HomePageData?.homepage?.seo?.metaTitle}>
       <div className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            <span className="block text-indigo-600">{homePage?.hero?.title}</span>
+            <span className="block text-indigo-600">{HomePageData?.homepage?.hero?.title}</span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
@@ -55,9 +43,11 @@ const Index: React.FC<PostProps> = ({ posts: postsInitialData, homePage: homePag
           </div>
         </div>
         <div className="flex flex-col sm:flex-row sm:flex-wrap px-4 gap-4 justify-center sm:items-center">
-          {posts?.map((post) => (
+          {PostData?.articles?.map((post) => (
             <PostPreview
-              onReadMore={() => router.push(`/?slug=${post.slug}&modal=${Modal.post_view}`, `/post/${post.slug}/`)}
+              onReadMore={() =>
+                push(`/?slug=${post.slug}&modal=${Modal.post_view}`, `/post/${post.slug}/`, { shallow: true })
+              }
               key={post.id}
               id={post.id}
               title={post.title}
@@ -71,20 +61,14 @@ const Index: React.FC<PostProps> = ({ posts: postsInitialData, homePage: homePag
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  ApolloService.setLocale(locale);
-  const { data: posts } = await ApolloService.post.getAll();
-  const {
-    data: { homepage }
-  } = await ApolloService.home.get();
-
+export const getStaticProps: GetStaticProps = withApolloStaticProps(async ({ locale }) => {
+  await ApolloService.post.getAll();
+  await ApolloService.home.get();
   return {
     props: {
-      homePage: homepage,
-      posts: posts.articles,
       ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig))
     }
   };
-};
+});
 
-export default Index;
+export default withApolloCache(Index);

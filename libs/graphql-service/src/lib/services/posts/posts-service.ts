@@ -3,14 +3,19 @@ import { Post } from './posts-models';
 import BaseService from '../baseService';
 
 export class PostService extends BaseService {
+  queries = {
+    GET_ALL: Queries.GET_ALL,
+    GET_BY_SLUG: Queries.GET_BY_SLUG,
+    GET_ALL_SLUG: Queries.GET_ALL_SLUG
+  };
   getAll() {
-    return this.query<{ articles: Post[] }>(Queries.GET_ALL);
+    return this.runQuery<{ articles: Post[] }>(this.queries.GET_ALL);
   }
   getBySlug(slug: string) {
-    return this.query<{ articles: Post[] }>(Queries.GET_BY_SLUG, { slug });
+    return this.runQuery<{ articles: Post[] }>(this.queries.GET_BY_SLUG, { slug });
   }
   getSlugs() {
-    return this.query<{ articles: Post[] }>(Queries.GET_ALL_SLUG);
+    return this.runQuery<{ articles: Post[] }>(this.queries.GET_ALL_SLUG);
   }
 }
 

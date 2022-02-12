@@ -1,5 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import { ApolloProvider } from '@apollo/client';
 import nextI18NextConfig from '../next-i18next.config.js';
 import { AppBar } from '@alamos-fe/material-ui-core';
 import { ApolloService } from '@alamos-fe/graphql-service';
@@ -26,25 +27,18 @@ export interface MyAppProps extends AppProps {
 
 function CustomApp({ Component, pageProps, emotionCache = createCache({ key: 'css' }) }: MyAppProps) {
   const { t } = useTranslation();
-  const router = useRouter();
-  const { locale, locales, asPath } = router;
-  ApolloService.setLocale(locale);
+  const { locale, locales, query, back, push } = useRouter();
 
   const renderModal = () => {
-    const modal = router.query.modal?.toString();
+    const modal = query.modal?.toString();
     const isOpen = modal in Modal;
     const activeModal = isOpen && ModalRoutes[modal as Modal];
     const ModalComponent = activeModal?.component;
     return (
-      <FullScreenDialog isOpened={isOpen} onRequestClose={() => router.back()}>
+      <FullScreenDialog isOpened={isOpen} onRequestClose={() => back()}>
         {isOpen ? <ModalComponent /> : null}
       </FullScreenDialog>
     );
-  };
-
-  const handleLocaleChange = (locale) => {
-    const shallow = Object.prototype.hasOwnProperty.call(Component, 'isLocaleHandler');
-    router.replace(asPath, undefined, { locale, shallow });
   };
 
   return (
@@ -56,23 +50,25 @@ function CustomApp({ Component, pageProps, emotionCache = createCache({ key: 'cs
         <div className="app flex flex-col">
           <AppBar
             navItems={[]}
-            home={{ text: t('common:nav.home'), handler: () => router.push('/') }}
+            home={{ text: t('common:nav.home'), handler: () => push('/') }}
             localization={{
               active: locale,
               locales: locales.map((x) => ({
                 value: x,
                 label: x,
-                handler: () => handleLocaleChange(x)
+                handler: () => push('/', undefined, { locale: x })
               }))
             }}
           />
           <main className="flex flex-col overflow-x-auto flex-grow pb-2">
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Component {...pageProps} />
+            <ApolloProvider client={ApolloService.getClient()}>
+              <Component {...pageProps} />
+              {renderModal()}
+            </ApolloProvider>
           </main>
         </div>
-        {renderModal()}
       </ThemeProvider>
     </CacheProvider>
   );
